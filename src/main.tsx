@@ -3,14 +3,19 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 
-async function enableMocking() {
+async function prepare() {
   if (import.meta.env.DEV) {
     const { worker } = await import('./mocks/browser')
-    return worker.start({ onUnhandledRequest: 'bypass' })
+    await worker.start({
+      onUnhandledRequest: 'bypass',
+      serviceWorker: {
+        url: '/mockServiceWorker.js',
+      },
+    })
   }
 }
 
-enableMocking().then(() => {
+prepare().then(() => {
   createRoot(document.getElementById('root')!).render(
     <StrictMode>
       <App />
