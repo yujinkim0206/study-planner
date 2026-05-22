@@ -24,19 +24,23 @@ const makeBlock = (
 
 describe("getWeekStart", () => {
   it("수요일 → 해당 주 월요일 반환", () => {
-    const wed = new Date("2025-01-08"); // 수요일
+    const wed = new Date(2025, 0, 8);
     const result = getWeekStart(wed);
-    expect(result.toISOString().slice(0, 10)).toBe("2025-01-06");
+    expect(result.getFullYear()).toBe(2025);
+    expect(result.getMonth()).toBe(0);
+    expect(result.getDate()).toBe(6);
   });
 
   it("월요일 입력 → 동일 날짜 반환", () => {
-    const mon = new Date("2025-01-06");
-    expect(getWeekStart(mon).toISOString().slice(0, 10)).toBe("2025-01-06");
+    const mon = new Date(2025, 0, 6);
+    const result = getWeekStart(mon);
+    expect(result.getDate()).toBe(6);
   });
 
   it("일요일 → 해당 주 월요일 반환 (전 주 아님)", () => {
-    const sun = new Date("2025-01-12"); // 일요일
-    expect(getWeekStart(sun).toISOString().slice(0, 10)).toBe("2025-01-06");
+    const sun = new Date(2025, 0, 12);
+    const result = getWeekStart(sun);
+    expect(result.getDate()).toBe(6);
   });
 });
 
