@@ -203,7 +203,7 @@ export default function PlannerGrid({
                   return (
                     <div
                       key={block.id}
-                      className="absolute left-0.5 right-0.5 cursor-pointer overflow-hidden group"
+                      className="absolute left-0.5 right-0.5 cursor-pointer overflow-hidden group hover:z-20"
                       style={{
                         top,
                         height: Math.max(height, SLOT_HEIGHT),
@@ -216,7 +216,7 @@ export default function PlannerGrid({
                       }}
                     >
                       <div
-                        className="absolute inset-0 transition-all group-hover:brightness-75"
+                        className="absolute inset-0 group-hover:brightness-75"
                         style={{ backgroundColor: bgColor }}
                       />
                       <div className="relative z-10 p-1 leading-tight">
