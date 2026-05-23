@@ -48,7 +48,7 @@ export default function WeeklySummary({ courses }: WeeklySummaryProps) {
     <div className="bg-white px-6 py-24 space-y-8">
       {/* 총 학습시간 */}
       <div>
-        <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
+        <p className="text-xs font-medium text-gray-700 uppercase tracking-wide mb-1">
           총 학습시간
         </p>
         <p className="text-3xl font-bold text-gray-900">
