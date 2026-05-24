@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { parseISO } from 'date-fns';
 import type { StudyBlock } from '../types';
 import { useCoursesQuery } from '../hooks/usePlanner';
 import { timeToMinutes, minutesToTime, isTimeConflict } from '../utils/time';
@@ -26,6 +27,8 @@ const DAY_LABELS = ['월', '화', '수', '목', '금', '토', '일'];
 export default function BlockModal({
   mode,
   initialData,
+  weekStart = '',
+  defaultDate,
   defaultTime = '00:00',
   draftBlocks,
   onConfirm,
@@ -34,7 +37,11 @@ export default function BlockModal({
 }: BlockModalProps) {
   const { data: courses, isLoading: coursesLoading } = useCoursesQuery();
 
-  const initialDay = initialData?.dayOfWeek ?? 0;
+  const initialDay =
+    initialData?.dayOfWeek ??
+    (defaultDate
+      ? Math.round((parseISO(defaultDate).getTime() - parseISO(weekStart).getTime()) / 86400000)
+      : 0);
 
   const [courseId, setCourseId] = useState<string>(initialData?.courseId ?? '');
   const [day, setDay] = useState<number>(initialDay);
