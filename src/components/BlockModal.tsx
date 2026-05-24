@@ -2,8 +2,7 @@ import { useState } from 'react';
 import { addDays, parseISO, format } from 'date-fns';
 import type { StudyBlock } from '../types';
 import { useCoursesQuery } from '../hooks/usePlanner';
-import { usePlannerStore } from '../store/plannerStore';
-import { timeToMinutes, minutesToTime, isTimeConflict } from '../utils/time';
+import { timeToMinutes, minutesToTime } from '../utils/time';
 
 const TIME_OPTIONS: string[] = (() => {
   const opts: string[] = [];
@@ -33,7 +32,6 @@ export default function BlockModal({
   onClose,
 }: BlockModalProps) {
   const { data: courses, isLoading: coursesLoading } = useCoursesQuery();
-  const draftBlocks = usePlannerStore((s) => s.draftBlocks);
 
   const weekEndStr = format(addDays(parseISO(weekStart), 6), 'yyyy-MM-dd');
 
@@ -62,26 +60,6 @@ export default function BlockModal({
     if (timeToMinutes(endTime) <= timeToMinutes(startTime)) {
       setError('올바른 시간 범위를 선택해주세요');
       return;
-    }
-
-    // 2. draftBlocks와 충돌
-    const tempId = initialData?.id ?? '__new__';
-    const tempBlock: StudyBlock = {
-      id: tempId,
-      courseId: effectiveCourseId,
-      dayOfWeek: day,
-      startTime,
-      endTime,
-    };
-
-    for (const block of draftBlocks) {
-      if (isTimeConflict(tempBlock, block)) {
-        const conflictCourse = courses.find((c) => c.id === block.courseId);
-        setError(
-          `${conflictCourse?.title ?? '다른 강의'}와 시간이 겹칩니다`
-        );
-        return;
-      }
     }
 
     setError(null);
