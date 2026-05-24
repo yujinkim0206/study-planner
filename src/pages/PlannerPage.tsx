@@ -43,6 +43,7 @@ export default function PlannerPage() {
 
   const [modal, setModal] = useState<ModalState>({ open: false });
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showError, setShowError] = useState(false);
 
   useEffect(() => {
     if (!saveMutation.isSuccess) return;
@@ -50,6 +51,13 @@ export default function PlannerPage() {
     const hide = setTimeout(() => setShowSuccess(false), 1000);
     return () => { clearTimeout(show); clearTimeout(hide); };
   }, [saveMutation.isSuccess]);
+
+  useEffect(() => {
+    if (!saveMutation.isError) return;
+    setShowError(true);
+    const hide = setTimeout(() => setShowError(false), 3000);
+    return () => clearTimeout(hide);
+  }, [saveMutation.isError]);
 
   const hasConflicts = useMemo(
     () => getConflictingBlocks(draftBlocks).length > 0,
@@ -120,7 +128,7 @@ export default function PlannerPage() {
   const monthYearLabel =
     weekDays.length > 0 ? format(weekDays[0], 'yyyy년 M월') : '';
 
-  const showSaveButton = isDirty || saveMutation.isError;
+  const showSaveButton = isDirty;
   const saveDisabled = saveMutation.isPending || hasConflicts;
 
   return (
@@ -163,12 +171,10 @@ export default function PlannerPage() {
                 className={
                   saveDisabled
                     ? 'cursor-not-allowed rounded-md bg-gray-200 px-4 py-1.5 text-sm font-medium text-gray-400'
-                    : saveMutation.isError
-                    ? 'rounded-md bg-red-600 px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-red-500'
                     : 'rounded-md bg-gray-900 px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-gray-700'
                 }
               >
-                {saveMutation.isError ? '다시 시도' : '저장'}
+                저장
               </button>
             </div>
           )}
@@ -216,7 +222,7 @@ export default function PlannerPage() {
         />
       )}
 
-      {/* 저장 상태 팝업 (하단 중앙) */}
+      {/* 저장 상태 팝업 */}
       {(saveMutation.isPending || showSuccess) && (
         <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 flex items-center gap-2 rounded-lg bg-gray-900 px-5 py-2.5 text-sm font-medium text-white shadow-lg">
           {saveMutation.isPending ? (
@@ -227,6 +233,13 @@ export default function PlannerPage() {
           ) : (
             <span>저장되었습니다</span>
           )}
+        </div>
+      )}
+
+      {/* 저장 실패 팝업 */}
+      {showError && (
+        <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-lg bg-red-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg">
+          저장에 실패했습니다
         </div>
       )}
     </div>
