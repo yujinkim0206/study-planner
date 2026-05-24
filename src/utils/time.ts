@@ -51,7 +51,8 @@ export function isTimeConflict(a: StudyBlock, b: StudyBlock): boolean {
 /**
  * 충돌하는 블록 id 쌍 배열 반환
  */
-export function getConflictingBlocks(blocks: StudyBlock[]): string[][] {
+export function getConflictingBlocks(blocks: StudyBlock[] | undefined | null): string[][] {
+  if (!blocks) return [];
   const pairs: string[][] = [];
 
   for (let i = 0; i < blocks.length; i++) {
