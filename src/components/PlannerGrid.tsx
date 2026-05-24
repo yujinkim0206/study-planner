@@ -74,21 +74,11 @@ export default function PlannerGrid({
 
   const gridHeight = ((GRID_END - GRID_START) / 30) * SLOT_HEIGHT;
 
-  const monthYearLabel =
-    weekDays.length > 0 ? format(weekDays[0], "yyyy년 M월") : "";
-
   return (
     <div
       className="flex flex-col bg-white"
       style={{ fontFamily: "'Inter', sans-serif" }}
     >
-      {/* 헤더 */}
-      <div className="px-4 pt-10 pb-6">
-        <h2 className="text-3xl font-semibold text-gray-900 tracking-tight">
-          {monthYearLabel}
-        </h2>
-      </div>
-
       {/* 요일 */}
       <div
         className="sticky top-0 z-20 flex bg-white border-b border-gray-200 shrink-0"
