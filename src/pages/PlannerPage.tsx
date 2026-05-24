@@ -197,6 +197,7 @@ export default function PlannerPage() {
           weekStart={weekStartStr}
           defaultDate={format(addDays(currentWeekStart, modal.dayOfWeek), 'yyyy-MM-dd')}
           defaultTime={modal.time}
+          draftBlocks={draftBlocks}
           onConfirm={handleModalConfirm}
           onClose={() => setModal({ open: false })}
         />
@@ -208,6 +209,7 @@ export default function PlannerPage() {
           mode="edit"
           initialData={modal.block}
           weekStart={weekStartStr}
+          draftBlocks={draftBlocks}
           onConfirm={handleModalConfirm}
           onDelete={handleModalDelete}
           onClose={() => setModal({ open: false })}
