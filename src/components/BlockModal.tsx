@@ -68,8 +68,9 @@ export default function BlockModal({
     };
     const conflicting = draftBlocks.find((b) => isTimeConflict(tempBlock, b));
     if (!conflicting) return null;
-    return `다른 강의와 시간이 겹칩니다`;
-  }, [draftBlocks, day, startTime, endTime, effectiveCourseId, initialData?.id]);
+    const courseName = courses.find((c) => c.id === conflicting.courseId)?.title ?? '다른';
+    return `${courseName} 강의와 시간이 겹칩니다`;
+  }, [draftBlocks, courses, day, startTime, endTime, effectiveCourseId, initialData?.id]);
 
   function handleConfirm() {
     // 1. 종료 시간 <= 시작 시간
