@@ -23,7 +23,7 @@ export const usePlannerStore = create<PlannerState & PlannerActions>((set) => ({
 
   initDraft: (blocks) =>
     set({
-      draftBlocks: blocks,
+      draftBlocks: blocks ?? [],
       isDirty: false,
     }),
 

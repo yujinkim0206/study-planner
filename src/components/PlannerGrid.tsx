@@ -51,7 +51,7 @@ export default function PlannerGrid({
   onSlotClick,
   onBlockClick,
 }: PlannerGridProps) {
-  const draftBlocks = usePlannerStore((s) => s.draftBlocks);
+  const draftBlocks = usePlannerStore((s) => s.draftBlocks ?? []);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
