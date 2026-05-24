@@ -1,5 +1,4 @@
 import { useState, useMemo } from 'react';
-import { addDays, parseISO, format } from 'date-fns';
 import type { StudyBlock } from '../types';
 import { useCoursesQuery } from '../hooks/usePlanner';
 import { timeToMinutes, minutesToTime, isTimeConflict } from '../utils/time';
@@ -13,8 +12,8 @@ const TIME_OPTIONS: string[] = (() => {
 export interface BlockModalProps {
   mode: 'add' | 'edit';
   initialData?: StudyBlock;
-  weekStart: string;       // ISO date string
-  defaultDate?: string;    // ISO date string
+  weekStart?: string;
+  defaultDate?: string;
   defaultTime?: string;
   draftBlocks: StudyBlock[];
   onConfirm: (block: Omit<StudyBlock, 'id'> & { id?: string }) => void;
@@ -22,11 +21,11 @@ export interface BlockModalProps {
   onClose: () => void;
 }
 
+const DAY_LABELS = ['월', '화', '수', '목', '금', '토', '일'];
+
 export default function BlockModal({
   mode,
   initialData,
-  weekStart,
-  defaultDate,
   defaultTime = '00:00',
   draftBlocks,
   onConfirm,
@@ -35,13 +34,7 @@ export default function BlockModal({
 }: BlockModalProps) {
   const { data: courses, isLoading: coursesLoading } = useCoursesQuery();
 
-  const weekEndStr = format(addDays(parseISO(weekStart), 6), 'yyyy-MM-dd');
-
-  const initialDay =
-    initialData?.dayOfWeek ??
-    (defaultDate
-      ? Math.round((parseISO(defaultDate).getTime() - parseISO(weekStart).getTime()) / 86400000)
-      : 0);
+  const initialDay = initialData?.dayOfWeek ?? 0;
 
   const [courseId, setCourseId] = useState<string>(initialData?.courseId ?? '');
   const [day, setDay] = useState<number>(initialDay);
@@ -140,22 +133,25 @@ export default function BlockModal({
           )}
         </div>
 
-        {/* 날짜 선택 */}
+        {/* 요일 선택 */}
         <div className="mb-4">
-          <label className="mb-1 block text-sm font-medium text-gray-700">날짜</label>
-          <input
-            type="date"
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none"
-            value={format(addDays(parseISO(weekStart), day), 'yyyy-MM-dd')}
-            min={weekStart}
-            max={weekEndStr}
-            onChange={(e) => {
-              const diff = Math.round(
-                (parseISO(e.target.value).getTime() - parseISO(weekStart).getTime()) / 86400000
-              );
-              if (diff >= 0 && diff <= 6) setDay(diff);
-            }}
-          />
+          <label className="mb-1 block text-sm font-medium text-gray-700">요일</label>
+          <div className="flex gap-1">
+            {DAY_LABELS.map((label, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => setDay(idx)}
+                className={`flex-1 rounded-md py-2 text-sm font-medium transition-colors ${
+                  day === idx
+                    ? 'bg-gray-800 text-white'
+                    : 'border border-gray-300 text-gray-600 hover:bg-gray-100'
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* 시작/종료 시간 */}
