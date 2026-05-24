@@ -155,7 +155,7 @@ export default function PlannerPage() {
           {showSaveButton && (
             <div className="flex items-center gap-2">
               {hasConflicts && (
-                <span className="text-sm font-medium text-red-500 mr-1">충돌을 해결하세요</span>
+                <span className="text-sm font-medium text-red-500 mr-1">시간이 겹치는 블록이 있습니다</span>
               )}
               <button
                 onClick={handleSave}
