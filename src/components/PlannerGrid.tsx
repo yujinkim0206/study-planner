@@ -219,6 +219,9 @@ export default function PlannerGrid({
                         {isConflict && (
                           <p className="text-[9px] font-bold text-white/90">충돌</p>
                         )}
+                        {block.memo && (
+                          <p className="mt-1 overflow-hidden break-words text-[10px] text-white/70">{block.memo}</p>
+                        )}
                       </div>
                     </div>
                   );

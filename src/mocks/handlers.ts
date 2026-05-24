@@ -7,11 +7,11 @@ export const setForceError = (value: boolean) => {
 };
 
 const courses: Course[] = [
-  { id: 'c1', title: '운영체제', color: '#f87171' },
-  { id: 'c2', title: '자료구조', color: '#60a5fa' },
-  { id: 'c3', title: '알고리즘', color: '#34d399' },
-  { id: 'c4', title: '데이터베이스', color: '#a78bfa' },
-  { id: 'c5', title: '네트워크',   color: '#fbbf24' },
+  { id: 'c1', title: '운영체제', color: '#ef4444' },
+  { id: 'c2', title: '자료구조', color: '#3b82f6' },
+  { id: 'c3', title: '알고리즘', color: '#10b981' },
+  { id: 'c4', title: '데이터베이스', color: '#8b5cf6' },
+  { id: 'c5', title: '네트워크',   color: '#f59e0b' },
 ]
 
 const db = new Map<string, StudyBlock[]>();
