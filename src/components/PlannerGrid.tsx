@@ -173,10 +173,22 @@ export default function PlannerGrid({
                   {TIME_SLOTS_30.slice(0, -1).map((t, i) => (
                     <div
                       key={`slot-${t}`}
-                      className="absolute left-0 right-0 cursor-pointer"
+                      className={`absolute left-0 right-0 cursor-pointer${draftBlocks.length === 0 ? " group/slot" : ""}`}
                       style={{ top: i * SLOT_HEIGHT, height: SLOT_HEIGHT }}
                       onClick={() => onSlotClick(dayIdx, t)}
-                    />
+                    >
+                      {draftBlocks.length === 0 && (
+                        <span
+                          className="absolute left-0 right-0 flex items-center justify-center text-xs text-gray-300 select-none opacity-0 group-hover/slot:opacity-100 pointer-events-none"
+                          style={{
+                            top: i % 2 === 0 ? 0 : -SLOT_HEIGHT,
+                            height: SLOT_HEIGHT * 2,
+                          }}
+                        >
+                          클릭하여 블록 추가
+                        </span>
+                      )}
+                    </div>
                   ))}
 
                 {/* 1시간 단위 블락 */}
